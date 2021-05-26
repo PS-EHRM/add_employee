@@ -35,7 +35,7 @@ $config['base_url'] = '';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'http://192.168.6.9/add_employee';
 
 /*
 |--------------------------------------------------------------------------
