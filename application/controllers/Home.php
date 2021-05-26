@@ -50,7 +50,7 @@ class Home extends CI_Controller {
 
 
 
-		$path = FCPATH."upload\data.xlsx";
+		$path = FCPATH."upload/data.xlsx";
 		$object = PHPExcel_IOFactory::load($path);
 		foreach($object->getWorksheetIterator() as $worksheet)
 		{
@@ -62,7 +62,7 @@ class Home extends CI_Controller {
 				$data['emp_number'] = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
 				$data['emp_salary_no'] = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
 				$data['emp_lastname_si'] = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
-				$data['job_title_code'] = $worksheet->getCellByColumnAndRow(3, $row)->getValue(); //code to convert
+				//$data['job_title_code'] = $worksheet->getCellByColumnAndRow(3, $row)->getValue(); //code to convert
 				$data['work_station'] = $worksheet->getCellByColumnAndRow(4, $row)->getValue();  //code to convert
 				$data['emp_app_date'] = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
 				$data['emp_nic_no'] = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
