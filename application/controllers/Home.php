@@ -28,8 +28,8 @@ class Home extends CI_Controller {
 	public function index()
 	{
 		$service = [];
-		$service_id = 1;
-		$wkservice_id = 10;
+		$service_id = 0;
+		$wkservice_id = 0;
 		$work_station = $this->excel_import_model->getWorksetation();
 		foreach($work_station as $row_wk){
 			if(!empty($row_wk->service_name_si)){
@@ -43,11 +43,13 @@ class Home extends CI_Controller {
 		foreach($work_station as $row_wk){
 			if(!empty($row_wk->title_si)){
 				$workposition[$row_wk->title_si] = $row_wk->id;
-				$wkservice_id = $service_id < $row_wk->id ? $row_wk->id : $wkservice_id;
+				$wkservice_id = $wkservice_id < $row_wk->id ? $row_wk->id : $wkservice_id;
 			}			
 		}
-		
 
+
+		//print_r($service);
+		//die();
 
 
 		$path = FCPATH."upload/data.xlsx";
@@ -65,10 +67,15 @@ class Home extends CI_Controller {
 				//$data['job_title_code'] = $worksheet->getCellByColumnAndRow(3, $row)->getValue(); //code to convert
 				$data['work_station'] = $worksheet->getCellByColumnAndRow(4, $row)->getValue();  //code to convert
 				$data['emp_app_date'] = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-				$data['emp_nic_no'] = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
-				$data['employee_id'] = $worksheet->getCellByColumnAndRow(11, $row)->getValue();
+				$data['emp_nic_no'] = strtoupper($worksheet->getCellByColumnAndRow(11, $row)->getValue());
+				$data['employee_id'] = strtoupper($worksheet->getCellByColumnAndRow(11, $row)->getValue());
+
+				$data['employee_id'] = !empty($data['employee_id']) ? $data['employee_id'] : null;
 
 				$service_temp = trim($worksheet->getCellByColumnAndRow(3, $row)->getValue());
+				$service_temp = str_replace("(","-",$service_temp);
+				$service_temp = str_replace(")","",$service_temp);
+
 				$service_pos_temp = trim($worksheet->getCellByColumnAndRow(4, $row)->getValue());
 				$data['service_code'] = NULL;
 				$data['work_station'] = NULL;
@@ -84,7 +91,8 @@ class Home extends CI_Controller {
 					}
 				}
 
-
+				$service_pos_temp = str_replace("(","-",$service_pos_temp);
+				$service_pos_temp = str_replace(")","",$service_pos_temp);
 				if(!empty($service_pos_temp)){
 					if(!empty($workposition[$service_pos_temp])){
 						$data['work_station'] = $workposition[$service_pos_temp];
