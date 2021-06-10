@@ -1,16 +1,16 @@
 <?php
 class Excel_import_model extends CI_Model {
     
-    public function getWorksetation($data = [])
+    public function getWorkStation($data = [])
     {
         $query = $this->db->select('*')
             ->where($data)
-            ->from('hs_hr_service')
+            ->from('hs_hr_job_title')
             ->get();
         return $query->result();
     }
 
-    public function getWorkCompstructtree($data = [])
+    public function getDesignation($data = [])
     {
         $query = $this->db->select('*')
             ->where($data)
@@ -18,16 +18,17 @@ class Excel_import_model extends CI_Model {
             ->get();
         return $query->result();
     }
-    
 
-    public function insertWorksetation($data)
-    {
-        $this->db->insert('hs_hr_service', $data);
-        $insert_id = $this->db->insert_id();
-    }
-    public function insertWorkPositionsetation($data)
+    
+    public function insertWorkStation($data)
     {
         $this->db->insert('hs_hr_compstructtree', $data);
+        $insert_id = $this->db->insert_id();
+    }
+
+    public function insertJobTitle($data)
+    {
+        $this->db->insert('hs_hr_job_title', $data);
         $insert_id = $this->db->insert_id();
     }
 
