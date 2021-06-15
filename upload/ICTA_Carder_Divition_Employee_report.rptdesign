@@ -92,7 +92,7 @@ reportContext.setGlobalVariable('user', user);]]></method>
                 </ex-property>
             </list-property>
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://127.0.0.1:3306/ictahrmlive</property>
+            <property name="odaURL">jdbc:mysql://127.0.0.1:3306/finalcommonhrm</property>
             <property name="odaUser">root</property>
             <property name="OdaConnProfileName">hrmintegration</property>
             <property name="OdaConnProfileStorePath">/opt/tomcat/webapps/birt-viewer/ServerProfiles.dat</property>
