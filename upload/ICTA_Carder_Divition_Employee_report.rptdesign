@@ -55,6 +55,7 @@ var currentDate = new Date();
 // Get msec from each, and subtract.
 var diff = currentDate.getTime() - reportDate.getTime();
 
+urlstring = repname+user+time;
 //urlstring=md5(repname+user+time);
 
 //set the flag to allow the report components to hide if flag=1 (= no access)
