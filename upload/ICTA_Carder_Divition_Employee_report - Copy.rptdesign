@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.8.0.v201805221921</property>
     <simple-property-list name="includeResource">
         <value>resource/Emp_information</value>
         <value>resource/Emp_information_si</value>
@@ -9,7 +9,6 @@
     <list-property name="includeScripts">
         <property>wfd_12535314174ab75f19a113d--md5.js</property>
     </list-property>
-    <property name="units">in</property>
     <list-property name="propertyBindings">
         <structure>
             <property name="name">queryText</property>
@@ -33,6 +32,7 @@
             <expression name="value">"/opt/tomcat/webapps/birt-viewer/ServerProfiles.dat"</expression>
         </structure>
     </list-property>
+    <property name="units">in</property>
     <method name="beforeFactory"><![CDATA[importPackage( Packages.javax.servlet.http );
 
 var request = reportContext.getHttpServletRequest();
@@ -55,13 +55,13 @@ var currentDate = new Date();
 // Get msec from each, and subtract.
 var diff = currentDate.getTime() - reportDate.getTime();
 
-//urlstring=md5(repname+user+time);
+urlstring=md5(repname+user+time);
 
 //set the flag to allow the report components to hide if flag=1 (= no access)
 if (securityToken==urlstring)
 {
 	if (diff < 100000) {
-		flag=0;
+		flag=1;
 	}
 }
 
@@ -90,12 +90,17 @@ reportContext.setGlobalVariable('user', user);]]></method>
                     <name>metadataBidiFormatStr</name>
                     <value>ILYNN</value>
                 </ex-property>
+                <ex-property>
+                    <name>disabledMetadataBidiFormatStr</name>
+                </ex-property>
+                <ex-property>
+                    <name>disabledContentBidiFormatStr</name>
+                </ex-property>
             </list-property>
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://127.0.0.1:3306/finalcommonhrm</property>
             <property name="odaUser">root</property>
-            <property name="OdaConnProfileName">hrmintegration</property>
-            <property name="OdaConnProfileStorePath">/opt/tomcat/webapps/birt-viewer/ServerProfiles.dat</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">eHh4eA==</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -1885,10 +1890,10 @@ where def_level = 3 AND parnt = ?]]></xml-property>
                 <property name="pageBreakInside">auto</property>
                 <header>
                     <row id="4485">
-                        <property name="height">0.2708333333333333in</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
+                        <property name="height">0.2708333333333333in</property>
                         <cell id="4486">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
@@ -1942,8 +1947,8 @@ where def_level = 3 AND parnt = ?]]></xml-property>
             </group>
             <detail>
                 <row id="4434">
-                    <property name="height">3.5208333333333335in</property>
                     <property name="pageBreakAfter">always</property>
+                    <property name="height">3.5208333333333335in</property>
                     <cell id="4435">
                         <property name="display">block</property>
                         <property name="pageBreakAfter">auto</property>
@@ -2116,7 +2121,7 @@ true
                 foaOX7SJyNkjH9R/egfC5AyzRSLTNkuLlDLPKCHtcq5AC39KxqBz9zRzx4TBDViXDuAAoZULADkI41Fh
                 8z9aoWN42xcn/tKDsgC/351CO5JuxJJ5km5+posdG3/Jg3lS7IsPE/GkmLOgXjhv6L7t2Lnr8uVV69Jt
                 QtT8YqCqIu25O2Ami1UdqK1dlA1UKPTQrks//9k=
-            </property>
+</property>
         </structure>
     </list-property>
 </report>
