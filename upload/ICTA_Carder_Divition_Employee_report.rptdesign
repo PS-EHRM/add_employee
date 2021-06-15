@@ -1,0 +1,2122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.21" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.6.0.v20100531 Build &lt;2.6.0.v20100609-1613></property>
+    <simple-property-list name="includeResource">
+        <value>resource/Emp_information</value>
+        <value>resource/Emp_information_si</value>
+        <value>resource/Emp_information_ta</value>
+    </simple-property-list>
+    <list-property name="includeScripts">
+        <property>wfd_12535314174ab75f19a113d--md5.js</property>
+    </list-property>
+    <property name="units">in</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">4892</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">4892</property>
+        </structure>
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">4407</property>
+        </structure>
+        <structure>
+            <property name="name">queryTimeOut</property>
+            <property name="id">4407</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">26</property>
+            <expression name="value">"/opt/tomcat/webapps/birt-viewer/ServerProfiles.dat"</expression>
+        </structure>
+    </list-property>
+    <method name="beforeFactory"><![CDATA[importPackage( Packages.javax.servlet.http );
+
+var request = reportContext.getHttpServletRequest();
+var flag = 0;
+var timeStamp = "";
+var securityToken = "";
+
+//read the url values
+var request = reportContext.getHttpServletRequest();
+
+user=request.getParameter("__user");
+repname=request.getParameter("__report");
+securityToken=request.getParameter("__st");
+time=request.getParameter("__time");
+
+var timeStamp = time*1000; // java timestamp = php timestamp * 1000
+var reportDate = new Date(timeStamp);
+var currentDate = new Date();
+
+// Get msec from each, and subtract.
+var diff = currentDate.getTime() - reportDate.getTime();
+
+urlstring=md5(repname+user+time);
+
+//set the flag to allow the report components to hide if flag=1 (= no access)
+if (securityToken==urlstring)
+{
+	if (diff < 100000) {
+		flag=1;
+	}
+}
+
+reportContext.setGlobalVariable('access_flag', flag);
+
+repLanguage=request.getParameter("__locale");
+if (repLanguage=="") {
+	repLanguage="en";
+}
+
+reportContext.setGlobalVariable('report_language', repLanguage);
+reportContext.setGlobalVariable('user', user);]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="newHandlerOnEachEvent">false</property>
+    <property name="layoutPreference">fixed layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="CommonHRMData" id="26">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://127.0.0.1:3306/ictahrmlive</property>
+            <property name="odaUser">root</property>
+            <property name="OdaConnProfileName">hrmintegration</property>
+            <property name="OdaConnProfileStorePath">/opt/tomcat/webapps/birt-viewer/ServerProfiles.dat</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="orgName" id="27">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">title</property>
+                    <text-property name="displayName">title</text-property>
+                    <text-property name="heading">title</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">title_si</property>
+                    <text-property name="displayName">title_si</text-property>
+                    <text-property name="heading">title_si</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">title_ta</property>
+                    <text-property name="displayName">title_ta</text-property>
+                    <text-property name="heading">title_ta</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">title_si</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">title_ta</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">title_si</property>
+                    <property name="nativeName">title_si</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">title_ta</property>
+                    <property name="nativeName">title_ta</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select hs_hr_compstructtree.title,hs_hr_compstructtree.title_si,hs_hr_compstructtree.title_ta
+from hs_hr_compstructtree
+where hs_hr_compstructtree.id=1]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title_si</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title_si</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title_si</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title_ta</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title_ta</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title_ta</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="CompanyHierachy" id="4407">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">title</property>
+                    <text-property name="displayName">title</text-property>
+                    <text-property name="heading">title</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id</property>
+                    <text-property name="displayName">id</text-property>
+                    <text-property name="heading">id</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">parnt</property>
+                    <text-property name="displayName">parnt</text-property>
+                    <text-property name="heading">parnt</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">def_level</property>
+                    <text-property name="displayName">def_level</text-property>
+                    <text-property name="heading">def_level</text-property>
+                    <property name="displayLength">4</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">parnt</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">def_level</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">title_5</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">id_6</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">parnt_7</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">def_level_8</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">parnt</property>
+                    <property name="nativeName">parnt</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">def_level</property>
+                    <property name="nativeName">def_level</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">title_5</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">id_6</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">parnt_7</property>
+                    <property name="nativeName">parnt</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">def_level_8</property>
+                    <property name="nativeName">def_level</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select d2.title,d2.id,d2.parnt,d2.def_level,
+       d1.title,d1.id,d1.parnt,d1.def_level
+
+from hs_hr_compstructtree d2
+
+LEFT JOIN hs_hr_compstructtree d1 ON d2.parnt = d1.id
+where d2.parnt != 0
+
+]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>id</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>parnt</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>parnt</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>parnt</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>def_level</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>4</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>def_level</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>def_level</design:label>
+            <design:formattingHints>
+              <design:displaySize>4</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>5</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>id</design:name>
+            <design:position>6</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>parnt</design:name>
+            <design:position>7</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>parnt</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>parnt</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>def_level</design:name>
+            <design:position>8</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>4</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>def_level</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>def_level</design:label>
+            <design:formattingHints>
+              <design:displaySize>4</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>9</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>id</design:name>
+            <design:position>10</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>parnt</design:name>
+            <design:position>11</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>parnt</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>parnt</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>def_level</design:name>
+            <design:position>12</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>4</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>def_level</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>def_level</design:label>
+            <design:formattingHints>
+              <design:displaySize>4</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DesignationEmployees" id="4568">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">emp_number</property>
+                    <text-property name="displayName">emp_number</text-property>
+                    <text-property name="heading">emp_number</text-property>
+                    <property name="displayLength">7</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">employee_id</property>
+                    <text-property name="displayName">employee_id</text-property>
+                    <text-property name="heading">employee_id</text-property>
+                    <property name="displayLength">50</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">work_station</property>
+                    <text-property name="displayName">work_station</text-property>
+                    <text-property name="heading">work_station</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">job_title_code</property>
+                    <text-property name="displayName">job_title_code</text-property>
+                    <text-property name="heading">job_title_code</text-property>
+                    <property name="displayLength">13</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">emp_display_name</property>
+                    <text-property name="displayName">emp_display_name</text-property>
+                    <text-property name="heading">emp_display_name</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">jobtit_name</property>
+                    <text-property name="displayName">jobtit_name</text-property>
+                    <text-property name="heading">jobtit_name</text-property>
+                    <property name="displayLength">100</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">emp_number</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">employee_id</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">work_station</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">job_title_code</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">emp_display_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">jobtit_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">emp_number</property>
+                    <property name="nativeName">emp_number</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">employee_id</property>
+                    <property name="nativeName">employee_id</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">work_station</property>
+                    <property name="nativeName">work_station</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">job_title_code</property>
+                    <property name="nativeName">job_title_code</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">emp_display_name</property>
+                    <property name="nativeName">emp_display_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">jobtit_name</property>
+                    <property name="nativeName">jobtit_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select e.emp_number,e.employee_id, e.work_station, e.job_title_code,e.emp_display_name, d.jobtit_name
+from  hs_hr_employee e	
+LEFT JOIN hs_hr_job_title d ON e.job_title_code = d.jobtit_code
+where emp_active_hrm_flg = '1']]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>emp_number</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>7</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>emp_number</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>emp_number</design:label>
+            <design:formattingHints>
+              <design:displaySize>7</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>employee_id</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employee_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employee_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>work_station</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>work_station</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>work_station</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>job_title_code</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>13</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>job_title_code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>job_title_code</design:label>
+            <design:formattingHints>
+              <design:displaySize>13</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>emp_display_name</design:name>
+            <design:position>5</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>emp_display_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>emp_display_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>jobtit_name</design:name>
+            <design:position>6</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>jobtit_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>jobtit_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="DistinctDesignation" id="4892">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">work_station</property>
+                    <text-property name="displayName">work_station</text-property>
+                    <text-property name="heading">work_station</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">job_title_code</property>
+                    <text-property name="displayName">job_title_code</text-property>
+                    <text-property name="heading">job_title_code</text-property>
+                    <property name="displayLength">13</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">jobtit_name</property>
+                    <text-property name="displayName">jobtit_name</text-property>
+                    <text-property name="heading">jobtit_name</text-property>
+                    <property name="displayLength">100</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">count(e.job_title_code)</property>
+                    <text-property name="displayName">count(e.job_title_code)</text-property>
+                    <text-property name="heading">count(e.job_title_code)</text-property>
+                    <property name="displayLength">21</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">work_station</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">job_title_code</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">jobtit_name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">count(e.job_title_code)</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">work_station</property>
+                    <property name="nativeName">work_station</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">job_title_code</property>
+                    <property name="nativeName">job_title_code</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">jobtit_name</property>
+                    <property name="nativeName">jobtit_name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">count(e.job_title_code)</property>
+                    <property name="nativeName">count(e.job_title_code)</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select e.work_station, e.job_title_code, d.jobtit_name, count(e.job_title_code)
+from  hs_hr_employee e	
+LEFT JOIN hs_hr_job_title d ON e.job_title_code = d.jobtit_code
+where emp_active_hrm_flg = '1'
+group by  e.work_station,e.job_title_code]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>emp_number</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>7</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>emp_number</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>emp_number</design:label>
+            <design:formattingHints>
+              <design:displaySize>7</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>employee_id</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>employee_id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>employee_id</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>work_station</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>work_station</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>work_station</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>job_title_code</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>13</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>job_title_code</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>job_title_code</design:label>
+            <design:formattingHints>
+              <design:displaySize>13</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>emp_display_name</design:name>
+            <design:position>5</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>emp_display_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>emp_display_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>jobtit_name</design:name>
+            <design:position>6</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>100</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>jobtit_name</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>jobtit_name</design:label>
+            <design:formattingHints>
+              <design:displaySize>100</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>count(e.job_title_code)</design:name>
+            <design:position>7</design:position>
+            <design:nativeDataTypeCode>-5</design:nativeDataTypeCode>
+            <design:precision>21</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>count(e.job_title_code)</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>count(e.job_title_code)</design:label>
+            <design:formattingHints>
+              <design:displaySize>21</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="System" id="5067">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">title</property>
+                    <text-property name="displayName">title</text-property>
+                    <text-property name="heading">title</text-property>
+                    <property name="displayLength">200</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">id</property>
+                    <text-property name="displayName">id</text-property>
+                    <text-property name="heading">id</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">parnt</property>
+                    <text-property name="displayName">parnt</text-property>
+                    <text-property name="heading">parnt</text-property>
+                    <property name="displayLength">6</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+                <structure>
+                    <property name="columnName">def_level</property>
+                    <text-property name="displayName">def_level</text-property>
+                    <text-property name="heading">def_level</text-property>
+                    <property name="displayLength">4</property>
+                    <property name="horizontalAlign">justify</property>
+                    <property name="wordWrap">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">parnt</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">def_level</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">0</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">parnt</property>
+                    <property name="nativeName">parnt</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">def_level</property>
+                    <property name="nativeName">def_level</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">0</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select title, id ,parnt , def_level
+from hs_hr_compstructtree
+where def_level = 2]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>id</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>parnt</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>parnt</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>parnt</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>def_level</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>4</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>def_level</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>def_level</design:label>
+            <design:formattingHints>
+              <design:displaySize>4</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Service" id="5068">
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">param_1</property>
+                    <property name="paramName">System</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">title</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">parnt</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">def_level</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">CommonHRMData</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">title</property>
+                    <property name="nativeName">title</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">id</property>
+                    <property name="nativeName">id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">parnt</property>
+                    <property name="nativeName">parnt</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">def_level</property>
+                    <property name="nativeName">def_level</property>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select title, id ,parnt , def_level
+from hs_hr_compstructtree
+where def_level = 3 AND parnt = ?]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>1.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>title</design:name>
+            <design:position>1</design:position>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>200</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>title</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>title</design:label>
+            <design:formattingHints>
+              <design:displaySize>200</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>id</design:name>
+            <design:position>2</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>id</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>id</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>parnt</design:name>
+            <design:position>3</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>6</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>NotNullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>parnt</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>parnt</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:name>def_level</design:name>
+            <design:position>4</design:position>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>4</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>def_level</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>def_level</design:label>
+            <design:formattingHints>
+              <design:displaySize>4</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube - DesignationEmployees" id="4612">
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="4613">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="4614">
+                            <property name="levels">
+                                <tabular-level name="jobtit_name" id="4615">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">jobtit_name</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="dataSet">DesignationEmployees</property>
+        </tabular-cube>
+        <tabular-cube name="Data Cube - CompanyHierachy" id="4662">
+            <property name="dimensions">
+                <tabular-dimension name="Group1" id="4663">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="4664">
+                            <property name="levels">
+                                <tabular-level name="id" id="4665">
+                                    <property name="dataType">integer</property>
+                                    <property name="columnName">id</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="dataSet">CompanyHierachy</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="date" id="1211">
+            <structure name="dateTimeFormat">
+                <property name="category">Short Date</property>
+                <property name="pattern">Short Date</property>
+                <property name="locale">si_LK</property>
+            </structure>
+            <structure name="numberFormat">
+                <property name="category">Unformatted</property>
+                <property name="locale">si_LK</property>
+            </structure>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">0.1in</property>
+            <property name="leftMargin">0.1in</property>
+            <property name="bottomMargin">0in</property>
+            <property name="rightMargin">0.1in</property>
+            <property name="fontFamily">monospace</property>
+            <property name="color">red</property>
+            <property name="display">none</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="showIfBlank">false</property>
+            <property name="showHeaderOnFirst">true</property>
+            <property name="headerHeight">1in</property>
+            <page-header>
+                <grid id="2430">
+                    <property name="backgroundAttachment">scroll</property>
+                    <property name="backgroundPositionX">0%</property>
+                    <property name="backgroundRepeat">no-repeat</property>
+                    <property name="backgroundSizeHeight">contain</property>
+                    <property name="backgroundSizeWidth">contain</property>
+                    <property name="height">0.8645833333333334in</property>
+                    <property name="width">11.34375in</property>
+                    <column id="2431">
+                        <property name="width">2.8229166666666665in</property>
+                    </column>
+                    <column id="2432">
+                        <property name="width">5.260416666666667in</property>
+                    </column>
+                    <column id="2433">
+                        <property name="width">3.2604166666666665in</property>
+                    </column>
+                    <row id="2438">
+                        <property name="height">0.8645833333333334in</property>
+                        <cell id="2439">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <property name="textAlign">left</property>
+                            <image id="4243">
+                                <property name="height">0.6770833333333334in</property>
+                                <property name="width">0.4895833333333333in</property>
+                                <property name="source">file</property>
+                                <expression name="uri" type="constant">images/logo.png</expression>
+                            </image>
+                        </cell>
+                        <cell id="4245">
+                            <property name="textAlign">center</property>
+                            <label id="4368">
+                                <property name="fontFamily">sans-serif</property>
+                                <property name="fontSize">16pt</property>
+                                <property name="fontWeight">bold</property>
+                                <property name="color">#000000</property>
+                                <property name="textUnderline">none</property>
+                                <property name="textAlign">center</property>
+                                <text-property name="text">Carder Employee Report </text-property>
+                            </label>
+                        </cell>
+                        <cell id="4246">
+                            <property name="textAlign">right</property>
+                            <image id="4247">
+                                <property name="height">0.4583333333333333in</property>
+                                <property name="width">1.0416666666666667in</property>
+                                <property name="source">file</property>
+                                <expression name="uri" type="constant">images/icta.png</expression>
+                            </image>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="1318">
+                    <property name="fontFamily">"BhashitaComplexSans"</property>
+                    <property name="verticalAlign">top</property>
+                    <property name="width">11.510416666666666in</property>
+                    <column id="1319">
+                        <property name="width">9.416666666666666in</property>
+                    </column>
+                    <column id="1320">
+                        <property name="width">2.09375in</property>
+                    </column>
+                    <row id="1321">
+                        <cell id="1322">
+                            <label id="5317">
+                                <property name="fontSize">8pt</property>
+                                <property name="fontWeight">normal</property>
+                                <property name="color">#000000</property>
+                                <property name="textAlign">left</property>
+                                <text-property name="text">All Right Received by ICTA - CommonHRM</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1323">
+                            <text id="4382">
+                                <property name="color">#000000</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                            <grid id="1325">
+                                <property name="color">#000000</property>
+                                <property name="width">1.59375in</property>
+                                <column id="1326">
+                                    <property name="width">0.65625in</property>
+                                </column>
+                                <column id="1327">
+                                    <property name="width">0.20833333333333334in</property>
+                                </column>
+                                <column id="1328">
+                                    <property name="width">0.7291666666666666in</property>
+                                </column>
+                                <row id="1329">
+                                    <cell id="1330">
+                                        <auto-text id="4380">
+                                            <property name="textAlign">right</property>
+                                            <property name="type">page-number</property>
+                                        </auto-text>
+                                    </cell>
+                                    <cell id="1332">
+                                        <text id="1333">
+                                            <property name="textAlign">center</property>
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="1334">
+                                        <auto-text id="4381">
+                                            <property name="type">total-page</property>
+                                        </auto-text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="4408">
+            <property name="width">11.458333333333334in</property>
+            <property name="dataSet">CompanyHierachy</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">title</property>
+                    <text-property name="displayName">title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["title"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">id</property>
+                    <text-property name="displayName">id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">parnt</property>
+                    <text-property name="displayName">parnt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["parnt"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">def_level</property>
+                    <text-property name="displayName">def_level</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["def_level"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">title_5</property>
+                    <text-property name="displayName">title</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["title_5"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">id_6</property>
+                    <text-property name="displayName">id</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["id_6"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">parnt_7</property>
+                    <text-property name="displayName">parnt</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["parnt_7"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">def_level_8</property>
+                    <text-property name="displayName">def_level</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["def_level_8"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["id"]</expression>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Aggregation_1</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">NPV</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["id"]</expression>
+                        </structure>
+                        <structure>
+                            <property name="name">rate</property>
+                        </structure>
+                    </list-property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <expression name="expression" type="javascript">dataSetRow["id"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding_1</property>
+                    <text-property name="displayName">wid</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["id"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding_2</property>
+                    <expression name="expression" type="javascript">a</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <structure name="toc"/>
+            <property name="pageBreakInterval">2147483647</property>
+            <column id="4472">
+                <property name="width">1.1770833333333333in</property>
+            </column>
+            <column id="4473">
+                <property name="width">1.2083333333333333in</property>
+            </column>
+            <column id="4474">
+                <property name="width">2.4479166666666665in</property>
+            </column>
+            <column id="4475">
+                <property name="width">6.583333333333333in</property>
+            </column>
+            <header>
+                <row id="4409">
+                    <cell id="4410"/>
+                    <cell id="4412"/>
+                    <cell id="4414"/>
+                    <cell id="4416"/>
+                </row>
+            </header>
+            <group id="4512">
+                <property name="groupName">NewTableGroup2</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr" type="javascript">row["parnt_7"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["parnt_7"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+                <header>
+                    <row id="4513">
+                        <property name="height">0.34375in</property>
+                        <cell id="4514"/>
+                        <cell id="4515"/>
+                        <cell id="4516"/>
+                        <cell id="4517">
+                            <table id="5035">
+                                <property name="dataSet">DistinctDesignation</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">work_station</property>
+                                        <text-property name="displayName">work_station</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["work_station"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">job_title_code</property>
+                                        <text-property name="displayName">job_title_code</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["job_title_code"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">jobtit_name</property>
+                                        <text-property name="displayName">jobtit_name</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["jobtit_name"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">count(e.job_title_code)</property>
+                                        <text-property name="displayName">count(e.job_title_code)</text-property>
+                                        <expression name="expression" type="javascript">dataSetRow["count(e.job_title_code)"]</expression>
+                                        <property name="dataType">decimal</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">Aggregation</property>
+                                        <property name="dataType">float</property>
+                                        <property name="aggregateFunction">SUM</property>
+                                        <list-property name="arguments">
+                                            <structure>
+                                                <property name="name">Expression</property>
+                                                <expression name="value" type="javascript">row["count(e.job_title_code)"]</expression>
+                                            </structure>
+                                        </list-property>
+                                    </structure>
+                                </list-property>
+                                <column id="5065">
+                                    <property name="width">5.53125in</property>
+                                </column>
+                                <column id="5062">
+                                    <property name="width">1.09375in</property>
+                                </column>
+                                <footer>
+                                    <row id="5054">
+                                        <cell id="5064">
+                                            <label id="5066">
+                                                <property name="textAlign">right</property>
+                                                <text-property name="text">Total ICTA Head Count  : </text-property>
+                                            </label>
+                                        </cell>
+                                        <cell id="5058">
+                                            <data id="5063">
+                                                <property name="fontWeight">bold</property>
+                                                <property name="textAlign">left</property>
+                                                <property name="resultSetColumn">Aggregation</property>
+                                            </data>
+                                        </cell>
+                                    </row>
+                                </footer>
+                            </table>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <group id="4484">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">none</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr" type="javascript">row["parnt"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["parnt"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">auto</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+                <header>
+                    <row id="4485">
+                        <property name="height">0.2708333333333333in</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <cell id="4486">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <data id="4444">
+                                <property name="whiteSpace">nowrap</property>
+                                <property name="pageBreakAfter">auto</property>
+                                <property name="pageBreakBefore">auto</property>
+                                <property name="resultSetColumn">title_5</property>
+                            </data>
+                        </cell>
+                        <cell id="4488"/>
+                        <cell id="4489">
+                            <grid id="5358">
+                                <property name="width">6.583333333333333in</property>
+                                <column id="5359">
+                                    <property name="width">1.2291666666666667in</property>
+                                </column>
+                                <column id="5360">
+                                    <property name="width">3.1666666666666665in</property>
+                                </column>
+                                <column id="5361">
+                                    <property name="width">2.1875in</property>
+                                </column>
+                                <row id="5362">
+                                    <cell id="5363">
+                                        <label id="5323">
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">left</property>
+                                            <text-property name="text">NIC</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="5364">
+                                        <label id="5329">
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">left</property>
+                                            <text-property name="text">Name</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="5365">
+                                        <label id="5331">
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">left</property>
+                                            <text-property name="text">Designation</text-property>
+                                        </label>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <detail>
+                <row id="4434">
+                    <property name="height">3.5208333333333335in</property>
+                    <property name="pageBreakAfter">always</property>
+                    <cell id="4435">
+                        <property name="display">block</property>
+                        <property name="pageBreakAfter">auto</property>
+                    </cell>
+                    <cell id="4437"/>
+                    <cell id="4439">
+                        <data id="4436">
+                            <property name="whiteSpace">nowrap</property>
+                            <property name="pageBreakAfter">auto</property>
+                            <property name="resultSetColumn">title</property>
+                        </data>
+                    </cell>
+                    <cell id="4441">
+                        <data id="5373"/>
+                        <table id="5318">
+                            <property name="width">6.552083333333333in</property>
+                            <property name="dataSet">DesignationEmployees</property>
+                            <list-property name="boundDataColumns">
+                                <structure>
+                                    <property name="name">emp_number</property>
+                                    <text-property name="displayName">emp_number</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["emp_number"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">employee_id</property>
+                                    <text-property name="displayName">employee_id</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["employee_id"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">work_station</property>
+                                    <text-property name="displayName">work_station</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["work_station"]</expression>
+                                    <property name="dataType">integer</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">job_title_code</property>
+                                    <text-property name="displayName">job_title_code</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["job_title_code"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">emp_display_name</property>
+                                    <text-property name="displayName">emp_display_name</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["emp_display_name"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                                <structure>
+                                    <property name="name">jobtit_name</property>
+                                    <text-property name="displayName">jobtit_name</text-property>
+                                    <expression name="expression" type="javascript">dataSetRow["jobtit_name"]</expression>
+                                    <property name="dataType">string</property>
+                                </structure>
+                            </list-property>
+                            <structure name="toc"/>
+                            <property name="pageBreakInterval">1316134912</property>
+                            <column id="5353">
+                                <property name="width">1.1875in</property>
+                            </column>
+                            <column id="5356">
+                                <property name="width">3.1666666666666665in</property>
+                            </column>
+                            <column id="5357">
+                                <property name="width">2.1770833333333335in</property>
+                            </column>
+                            <detail>
+                                <row id="5332">
+                                    <list-property name="visibility">
+                                        <structure>
+                                            <property name="format">all</property>
+                                            <expression name="valueExpr" type="javascript">if(row["work_station"] == row._outer["id"]){
+false
+}else{
+true
+}</expression>
+                                        </structure>
+                                    </list-property>
+                                    <cell id="5335">
+                                        <data id="5336">
+                                            <property name="whiteSpace">nowrap</property>
+                                            <property name="resultSetColumn">employee_id</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="5341">
+                                        <data id="5342">
+                                            <property name="whiteSpace">nowrap</property>
+                                            <property name="resultSetColumn">emp_display_name</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="5343">
+                                        <data id="5344">
+                                            <property name="whiteSpace">nowrap</property>
+                                            <property name="resultSetColumn">jobtit_name</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </detail>
+                        </table>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="4459">
+                    <cell id="4460"/>
+                    <cell id="4461"/>
+                    <cell id="4462"/>
+                    <cell id="4463"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+    <property name="pageVariables">
+        <variable-element name="report_language">
+            <expression name="value" type="javascript">reportContext.getGlobalVariable('report_language')</expression>
+            <property name="type">report</property>
+        </variable-element>
+        <variable-element name="access_flag">
+            <expression name="value" type="javascript">reportContext.getGlobalVariable('access_flag')</expression>
+            <property name="type">report</property>
+        </variable-element>
+    </property>
+    <list-property name="images">
+        <structure>
+            <property name="name">images.jpeg</property>
+            <property name="type">image/jpeg</property>
+            <property name="data">
+                /9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBhQSERQUDxQWFRUVFxgWFxgVFxYXFhcVHRcXFxUVFBcX
+                HSYgFx0jHBwXIC8lIyoqLCwsFh4xODAuNyYrLCkBCQoKDgwOGg8PGi8iHiQsKSwyMDUpLDUpNS0sLyws
+                LCksLCwsKTUsKSouLCosKiosLywsLC8qLDQqLywsKSkqKv/AABEIAGAAeAMBIgACEQEDEQH/xAAbAAAA
+                BwEAAAAAAAAAAAAAAAAAAQIEBQYHA//EADkQAAIBAgQEBAMGBQQDAAAAAAECAwARBAUSIQYxQVETIjJh
+                FHGRB0JSgbHBI3KSodFisvDxNEOC/8QAGgEAAgMBAQAAAAAAAAAAAAAAAwQAAQUCBv/EACkRAAICAQMD
+                AgYDAAAAAAAAAAABAhEDBBIhEzFRQaEUIkJSgZEyYXH/2gAMAwEAAhEDEQA/AKaDSr1zWjvXoDIF6qI0
+                mjvUIHQvVhyDgmbEgO/8KI/eYeZv5F/c1c4eFMNho2cReKyKWvJ5iSB25D6UtPUQi67sNHDKSvsZdHEz
+                elS3yBP6V1OBkAuY3/ob/FaBDxiwiBEK31afLdVAKhhcKDvvyFdDxLKJCxVggUMYyp9Phlma9rjzaQD1
+                1ctq5ebJ9vuWscPPsZt4R67fPn9KQTWmNmqYiZImgjcNYNqAPmtdtDjewHtuRTbN/s5jcE4VjG34W8yH
+                91/vUWpSdTVE6N8x5M7v8qF6cZjlskDlJlKt78iO6nkRTW9NJpq0Barhir0L0V6F6hBLmhSXNCrIBTR3
+                pCGjvVlCtVXrhLhJVj+Kxo8qrrVDyCgX8Rx+gqI4G4fGJn1SC8cVmYfib7q/uasvFObSSyrFg2UlG8wU
+                jVq5HyG2tR1AuOdxSmablLpx/LDwikt7/AuHP5ZMSrQ3kRjZVA0houquPuOnqB5ML9qt5FR+T5QkCWVV
+                DNYuVvpLDooJ2Ub2HS9V3jDiORHEUMqQj7zG5cna+mwNgAR7k0i4rLLbAZT6cbkWLG5rDhhZtrb6I1ue
+                9yqjb86jsLx7hpTZfF97oSB7mxNqzzO8xLSRvGzAaQwJJuXv5nN+ZJHX5U3xWMDoRHH4Y1a3IYm7WsLf
+                hUb2HuaajpI1yAeeV8GvYXL4dfxESgs4PnU7EHnboD3oZrPIsRMK6m5bbkD8QHU/91nUmctEsXhzeDKq
+                Iz+orIGW51KAQWHl6bg1oeS5gZoVdrBuum+m9r3W+9j2NLZMThUnyg8Min8q4Gk2GjxcfgYnSZNOo6L3
+                Tswbof1rMc+yV8LKY5NxzVujr0I9+4rTcdl6REyqSikguE2LG9x5ifKt+YHO9cc8y9MfhW0W1rcoeoYd
+                D1AYfqK7xZem7+lnE4blT7mT3o70k7bEWPbse1FetQTEuaFB6FQgStR3rmprrAuplXuyj6kVZDVMgwzY
+                XLgyaFkZfFJkJVAW5aiOwtam3CWDMkzTS6GMfJl02LtclvKbMbE72B3pxxtmnw8UaaY2VzYq+rcJa2nT
+                2I6kU54KRfhy6KF1uxIBuOwF7n6Vk2+m5+WO0t6j4J2aTSrMBewJt3sL2rJcwxwdFXEgu7M0jOinVHrs
+                QATs+3MdLDetVx8LNFIqGzMjKp7EiwrK8xRsP4cc0zIY41Uxx2dxzJ1k+Ub8ue1q60lc+StRfA2+C1RF
+                UYSKt3Rl2Km3njkU7pcbjpcGhlrlo2Un+Ev8SUd1G4HzJsB86lsjljmMkccrpK0TKpmRWFti9mSx9IOx
+                Fd8ryiOKOX+PHLGyPqBSRQSoDKNx0Iv78qblOrTARj6oqy41WZ3lUyOTcC9kv/qtuQNrAdqvXCGIkfEt
+                ICfClj8yldBVkAAIHIjmLj5VUjmSHZZ5l+USBAfZVNwPzq88KZU4MU3jLKohaO6E2bzagSDuG71xqGlD
+                kvEvm4LNNEHUq3Ii3/LVFZUJU28MBb2CiwI827Eja9vrUxQrMUqVDzjbsyTjnLhDjH0iyyASD8/V/f8A
+                Wq/er19qcVmw79w6/wBwRVDvWxp5bsaZn5VU2KvQpF6OjAxArvgntIhPR1/3CmoNKBqehDecyxSxozuA
+                QL2uAd97c664e2kWAFwDYCwuRfpUJi5Ricu1XsGjVrjexFtR/Len2R4zxIEba4uhtyuu1x8xY/nWA1XB
+                pp2yRBrFMWAMY/xYa3isZAuz21H039rVtN6zfjbiNZMQYYsPHIyHSXZSzluqoBY2HKm9I2pNJAdQlSYx
+                fNMFh38TBLM0lmVfFIVF1CxO3mJty3p6mJKYR554iquDHEjSzHxdXrc6m2UDl70wkxRwkQ1QwJiXYFQU
+                u0cYHqdWJALHkOYAvUpkmYTGGSbFK2KMi3jgYruoNjIFI2G1hp32NMz4V/355YCPLoq2LxUDR2ihZHuL
+                sZda26jSRV8+zGBxh5Ga+hpAUv7CzEe16qDZ6FYOcDh1Um4DJIAbdiTvWmcOZ0mKgWSNdFvKU6KR0Ful
+                c6mTWOq4/wBO8KW/uSlRs2YlcWkXR0DfK2skj6CpGq5lc4mxssijUEDKG6BTpCBfnZz+fvWYNyfYhPtU
+                k/8AGX+dv0FUGrP9o2P8TGaQdokCf/R8zftVWra06rGhDK7mw6FJvQowI5ijBor0QNWWaT9mWcho3w0m
+                +m7oD1Q7Ov5fvT3JMV8LiHgkBRDYDmU1lz4bqegYEL7FazLAY54ZFliNnQ3H+D7HlWmSOmZYfxYWZZFX
+                S6De/Uxsp991boaytVi2y3rsxrFO1Xqi33rO+JOBsR8S02D8wZtezBXR+tr++96n8r4qW7pOWATTaRkK
+                kA2Fph9xgevI86sYO1+h5HofkaXx5JY3aDyjHIjPMn+zmV5NeOYBb3ZQ2p3PZm6DvTniPgSeSUy4eUHc
+                aUY6CgAsqoRtYDYcqvd6FE+JybrOejGqMxxHCWZzhUnOpU9PiSAhe9rXNXnhfIhhMOI9WpiSzkcix7ew
+                qVtUPmXFEUZ0oVkaxb1AIoF7F39ztYbmqyZ5TVPsSOOMHYfEmaeHGY1IDyK9iTYIgXzSE/mAO5NNcFP8
+                HgmmnIvYMFHIeULFGvc2tc9d6aZXlrTWnxyjSoL6pG9RvqBKckjXoD87VT+NOKvi5NMZPgx+n/Wern9h
+                2qsOJ5JV6FTntW79EBicSZHZ3N2Ylifc7muV6ImivW32ERV6FJJoVRBN6ANChVHQeqnmVZvJhpBJC1mG
+                x7MPwsOoplR1T5VMi4NMwfEOEx9hPeGe2n1FQfZW5MPZqeRZLiYGVoHBUDSVS41L0JWQlbjuLVlF6lcv
+                4ixMO0UxC/hY6l+hpHJpPsYaOVfUjV8lnxJ1DFIoA9LCwY/zKNvpUm5Njp522vyv0vWXwfaJiAPMsTfU
+                foaOX7SJyNkjH9R/egfC5AyzRSLTNkuLlDLPKCHtcq5AC39KxqBz9zRzx4TBDViXDuAAoZULADkI41Fh
+                8z9aoWN42xcn/tKDsgC/351CO5JuxJJ5km5+posdG3/Jg3lS7IsPE/GkmLOgXjhv6L7t2Lnr8uVV69Jt
+                QtT8YqCqIu25O2Ami1UdqK1dlA1UKPTQrks//9k=
+            </property>
+        </structure>
+    </list-property>
+</report>
