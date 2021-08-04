@@ -79,7 +79,7 @@ class Home extends CI_Controller {
 		for($row=4; $row<=$highestRow; $row++)
 		{
 
-			$data['emp_num_pso'] = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
+			$data['emp_app_letter_no'] = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
 			//$data['emp_number'] = $this->empid;//$worksheet->getCellByColumnAndRow(1, $row)->getValue();
 			$data['employee_id'] = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
 			$data['emp_firstname'] = strtoupper($worksheet->getCellByColumnAndRow(8, $row)->getValue());
