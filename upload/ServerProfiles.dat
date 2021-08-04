@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><DataTools.ServerProfiles version="1.0">
-<profile autoconnect="No" desc="" id="f8e38600-460b-11e0-ae87-e29247985a12" name="hrmintegration" providerID="org.eclipse.birt.report.data.oda.jdbc">
-<baseproperties><property name="odaURL" value="jdbc:mysql://192.168.6.28:3306/finalcommonhrm"/>
-<property name="odaDriverClass" value="com.mysql.jdbc.Driver"/><property name="odaPassword" value="Ict@3333"/><property name="odaUser" value="root"/>
-<property name="contentBidiFormatStr" value="ILYNN"/><property name="metadataBidiFormatStr" value="ILYNN"/></baseproperties><org.eclipse.datatools.connectivity.versionInfo><property name="technology.version.org.eclipse.birt.report.data.oda.jdbc" value="3.0.6"/><property name="server.version" value="5.1.0.7"/><property name="technology.name.org.eclipse.birt.report.data.oda.jdbc" value="DTP Open Data Access"/><property name="server.name" value="MySQL"/>
-</org.eclipse.datatools.connectivity.versionInfo>
-</profile></DataTools.ServerProfiles>
