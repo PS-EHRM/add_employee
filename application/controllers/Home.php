@@ -27,9 +27,10 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
+		//ini_set('memory_limit', '-1');
 		print_r("Uploading start ");
 
-		for($x = 1; $x <=11; $x++){
+		for($x = 11; $x <=11; $x++){
 			$path = FCPATH."upload/".$x.".xlsx";
 			$object = PHPExcel_IOFactory::load($path);
 			foreach($object->getWorksheetIterator() as $key => $worksheet)
@@ -37,19 +38,19 @@ class Home extends CI_Controller {
 				echo "<pre>";
 					print_r("excel ".$x." sheet ".$key);
 				echo "</pre>";
-				if($key==0){
-					$this->add_sheet_1($worksheet);
+				if(false && $key==0){
+					//$this->add_sheet_1($worksheet);
 				}else if($key==1){
 					$this->add_address_sheet($worksheet);
-				}else if($key==2){
-					$this->add_dependent_sheet($worksheet);
-				}else if($key==3){
-					$this->add_emergency_sheet($worksheet);
-				}else if($key==4){
-					$this->add_job_sheet($worksheet);
-				}else if($key==5){
+				}else if(false && $key==2){
+					//$this->add_dependent_sheet($worksheet);
+				}else if(false && $key==3){
+					//$this->add_emergency_sheet($worksheet);
+				}else if(false && $key==4){
+					//$this->add_job_sheet($worksheet);
+				}else if(false && $key==5){
 					//$this->add_service_sheet($worksheet);
-				}else if($key==6){
+				}else if(false && $key==6){
 					//$this->add_education_sheet($worksheet);
 				}else if(false && $key==7){
 					//$this->add_job_sheet($worksheet);
@@ -82,10 +83,39 @@ class Home extends CI_Controller {
 			$data['emp_app_letter_no'] = $worksheet->getCellByColumnAndRow(0, $row)->getValue();
 			//$data['emp_number'] = $this->empid;//$worksheet->getCellByColumnAndRow(1, $row)->getValue();
 			$data['employee_id'] = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
-			$data['emp_firstname'] = strtoupper($worksheet->getCellByColumnAndRow(8, $row)->getValue());
-			$data['emp_lastname'] = strtoupper($worksheet->getCellByColumnAndRow(9, $row)->getValue());
+			
 			$data['emp_birthday'] = strtoupper($worksheet->getCellByColumnAndRow(10, $row)->getValue());
 			$data['gender_code'] = strtoupper($worksheet->getCellByColumnAndRow(5, $row)->getValue());
+			
+			$data['emp_nic_no'] = strtoupper($worksheet->getCellByColumnAndRow(1, $row)->getValue());
+			$data['title_code'] = strtoupper($worksheet->getCellByColumnAndRow(4, $row)->getValue());
+			
+			
+			
+			$data['emp_display_name'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			$data['emp_display_name_ta'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			$data['emp_display_name_si'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			
+			$data['emp_names_of_initials'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			$data['emp_names_of_initials_si'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			$data['emp_names_of_initials_ta'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			
+			$data['emp_firstname'] = strtoupper($worksheet->getCellByColumnAndRow(8, $row)->getValue());
+			$data['emp_firstname_si'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			$data['emp_firstname_ta'] = strtoupper($worksheet->getCellByColumnAndRow(6, $row)->getValue());
+			
+			$data['emp_lastname'] = strtoupper($worksheet->getCellByColumnAndRow(9, $row)->getValue());
+			$data['emp_lastname_si'] = strtoupper($worksheet->getCellByColumnAndRow(9, $row)->getValue());
+			$data['emp_lastname_ta'] = strtoupper($worksheet->getCellByColumnAndRow(9, $row)->getValue());
+			
+			$data['marst_code'] = strtoupper($worksheet->getCellByColumnAndRow(11	, $row)->getValue());
+			$data['emp_married_date'] = strtoupper($worksheet->getCellByColumnAndRow(12, $row)->getValue());
+			$data['rlg_code'] = strtoupper($worksheet->getCellByColumnAndRow(14, $row)->getValue());
+			$data['ethnic_race_code'] = strtoupper($worksheet->getCellByColumnAndRow(13, $row)->getValue());
+			
+					
+
+
 			if(empty($data['employee_id'])){
 				break;
 			}
