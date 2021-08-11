@@ -30,7 +30,7 @@ class Home extends CI_Controller {
 		//ini_set('memory_limit', '-1');
 		print_r("Uploading start ");
 
-		for($x = 11; $x <=11; $x++){
+		for($x = 2; $x <=2; $x++){
 			$path = FCPATH."upload/".$x.".xlsx";
 			$object = PHPExcel_IOFactory::load($path);
 			foreach($object->getWorksheetIterator() as $key => $worksheet)
@@ -38,9 +38,9 @@ class Home extends CI_Controller {
 				echo "<pre>";
 					print_r("excel ".$x." sheet ".$key);
 				echo "</pre>";
-				if(false && $key==0){
-					//$this->add_sheet_1($worksheet);
-				}else if($key==1){
+				if($key==0){
+					$this->add_sheet_1($worksheet);
+				}else if(false && $key==1){
 					$this->add_address_sheet($worksheet);
 				}else if(false && $key==2){
 					//$this->add_dependent_sheet($worksheet);
